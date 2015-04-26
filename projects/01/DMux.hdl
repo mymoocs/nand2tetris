@@ -1,0 +1,38 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/DMux.hdl
+
+/**
+ * Demultiplexor:
+ * {a, b} = {in, 0} if sel == 0
+ *          {0, in} if sel == 1
+ */
+
+CHIP DMux {
+    IN in, sel;
+    OUT a, b;
+
+    PARTS:
+    // This is a less efficent implementation, but I like it        
+    Mux (a=in, b=false, sel=sel, out=a);
+    Mux (a=false, b=in, sel=sel, out=b);
+}
+
+/*
+    // Similarly to Mux, we need both cases of sel
+    //First we flip the selector bit for future use.
+    Not(in=sel, out=notsel);
+
+    // If sel == 0, then notsel means that we are dealing
+    // with the bottom 2 lines of the And truth table
+    //Lastly we check if both a and not the selector are true.
+    //If they are both true, then output pin a becomes true.
+    And(a=in,   b=notsel, out=a);
+
+    // Since sel == 0 we are dealing with the top 2 lines
+    // of the And truth table, and will always b == 0
+    //Second, we check if the input and selector are both true.
+    //If they are, then output pin b becomes true.
+    And(a=in,   b=sel,    out=b);
+*/
