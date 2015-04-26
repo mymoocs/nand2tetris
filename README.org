@@ -1,0 +1,5 @@
+* [[https://class.coursera.org/nand2tetris1-001][From Nand to Tetris / Part I]]
+
+
+** [[http://nand2tetris.org/01.php][Course resource site]]
+** some exercise check with [[https://github.com/seebees/nand2tetris][seebees]] and copy comments from their.
