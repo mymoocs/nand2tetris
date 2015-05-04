@@ -11,10 +11,29 @@
  * else                    out[t+1] = out[t]
  */
 
+/**
+  You cannot use if-then-else statements explicitly in HDL, but you can implement 
+  conditional logic declaratively, using multiplexors. For example, consider a Mux 
+  chip with inputs a, b, sel and output out. This chip implements the conditional 
+  logic if (sel==0) out=a else out=b. If you want, you can make this humble chip 
+  model every conditional logic that you please. For example, sel can get its 
+  input from a chip that computes a complex boolean condition, and a and b can be 
+  the outputs of chips that compute complex things.  This way you can implement the 
+  general logic if (cond) out=f else out=g where cond, f and g are similar to "methods" 
+  in a conventional high level language (in HDL the return values of these "methods" 
+  will be delivered by chips). -- Shimon  
+*/
 CHIP PC {
     IN in[16],load,inc,reset;
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    Inc16(in=regout, out=plusone);
+	Mux16(a=false, b=plusone, sel=inc, out=incout);
+	Mux16(a=incout, b=in, sel=load, out=loadout);
+	Mux16(a=loadout, b=false, sel=reset, out=toload);
+	Or(a=load, b=reset, out=loadorreset);
+	Or(a=loadorreset, b=inc, out=loadflag);
+    Register(in=toload, load=loadflag, out=regout);
+	Or16(a=regout, b=regout, out=out);
 }
